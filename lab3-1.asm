@@ -8,12 +8,15 @@ _k: .word 6
 # i = 0;
 # while (save[i] == k)
 #   i += 1;
+
 # i = $s3
 # k = $s5
 # save[0] = $s6
 
 main: # inicialização
 add $s3, $zero, $zero   # i = 0;
+la $s6, _save
+lw $s5, _k
 
 Loop: # corpo do laço
 sll $t1, $s3, 2
