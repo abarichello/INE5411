@@ -1,6 +1,6 @@
 .data
-_save: .word 6,6,6,6,6,6,6,6,6 # Trocar para Estimulo 2.1
-#_save: .word 6,6,6,6,6,6,6,6,6 # Estimulo 2.2
+#_save: .word 9999,7,6,1,6,4,5,6,0 # Trocar para Estimulo 2.1
+_save: .word 9999,7,6,6,6,6,6,6,6 # Estimulo 2.2
 _k: .word 6
 _error: .asciiz "Index Out of Bounds Exception"
 .text
@@ -22,12 +22,12 @@ lw $s5, _k
 lw $t2, 4($s6)
 
 Loop: # corpo do laço
-sltu $t1, $s3, $t2
-beq $t1, $zero, IndexOutOfBounds
+sltu $t1, $s3, $t2               # t1 = i < size
+beq $t1, $zero, IndexOutOfBounds # 
 
 sll $t1, $s3, 2
 add $t1, $t1, $s6
-lw $t0, 0($t1)
+lw $t0, 8($t1)
 bne $t0, $s5, Exit
 addi $s3, $s3, 1
 j Loop

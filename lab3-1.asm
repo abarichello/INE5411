@@ -1,6 +1,6 @@
 .data
-_save: .word 6,6,1,6,6,2,7,6,5 # Estimulo 1.1
-#_save: .word 6,6,6,6,6,6,6,6,6 # Estimulo 1.2
+#_save: .word 6,6,6,2,7,6,5 # Estimulo 1.1
+_save: .word 6,6,6,6,6,6,6 # Estimulo 1.2
 _k: .word 6
 .text
 .globl main

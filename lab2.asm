@@ -36,10 +36,10 @@ beq $t0,$zero,default
 # Seção 5: calcula o endereço de jat[k]
 sll $t1,$s5,2
 add $t1,$t1,$t4
-lw $t1,0($t1)
 
 # Seção 6: desvia para o endereço que se
 # encontra armazenado em jat[k]
+lw $t1,0($t1)
 jr $t1
 
 # Seção 7: codifica as alternativas de
@@ -52,8 +52,9 @@ jr $t1
 # k = $s5
 
 L0:
-add $t0,$s2,$s3
-sll $s0,$t0,1
+# definida no relatorio
+add $t0,$s2,$s3 # t0 = h + j
+sll $s0,$t0,1   # s0 = t0 << 1 
 j Exit
 # expressão definida no relatorio;
 
@@ -63,20 +64,20 @@ j Exit
 
 L2:
 add $t0,$s1,$s2 # t0 = g + h
-add $s0,$t0,$s5 # f = (g + h) + k
+add $s0,$t0,$s4 # f = (g + h) + j
 j Exit
 
 L3:
-sub $s0,$s3,$s2 # f = i - h
+or  $t0,$s3,$s2 # t0 = i | h
+or  $s0,$t0,$s4 # f = t0 | j
 j Exit
 
 L4:
-sub $s0,$s4,$s3 # f = j - i
+and $s0,$s2,$s5 # f = h & k
 j Exit
 
 default:
-sub $t0,$s3,$s4 # t0 = i - j
-addi $s0,$t0,2  # f = (i - j) + 2
-j Exit
+sub  $t0,$s3,$s5 # t0 = i - k
+addi $s0,$t0, 5  # f = t0 + 5
 
 Exit: nop
