@@ -1,31 +1,31 @@
 .data
 # Arranjo inicializado com elementos N não nulos. O valor de N é provido no relatório.
-_array: .word 3:5                   # N palavras com o valor 3
+_array: .byte 3:5                   # N bytes com o valor 3
 _size:  .word 5                     # tamanho do arranjo
 
 .text
 .globl  main
 
 main:
-    jal     clear2
-    li      $v0, 10	                # Exit syscall
-    syscall
-
-clear2:
-    # inicialização dos parâmetros
     la      $a0, _array
     lw      $a1, _size
-    # Prólogo do laço. Deve conter uma única instrução de inicialização de p.
-    add     $t0, $a0, $zero         # copy p to t0
-    sll     $t2, $a1, 2             # t2 = size * 4
-    add     $t2, $a0, $t2           # t2 += array base
+    jal     clear1
+    li      $v0, 10                 # Exit syscall
+    syscall
 
-Loop2:                              # Teste, corpo e iteração do laço.
-    slt     $t3, $t0, $t2           # t3 = 1 if p > array[size]
-    beq     $t3, $zero, Exit        # if p >= &array[size] goto Exit
-    sw      $zero, 0($t0)           # *p = 0
-    addi    $t0, $t0, 4             # p = p + 1
-    j       Loop2
+clear1:
+    # inicialização dos parâmetros
+    # Prólogo do laço. Deve conter uma única instrução de inicialização do índice.
+    add     $t0, $zero, $zero       # i = 0
+
+Loop1:                              # Teste, corpo e iteração do laço.
+    slt     $t3, $t0, $a1           # t3 = 1 if i < _size
+    beq     $t3, $zero, Exit        # if i >= _size goto Exit
+    sll     $t1, $t0, 0             # t1 = i * 1
+    add     $t2, $a0, $t1           # t2 = base of array + offset
+    sb      $zero, 0($t2)           # array[i] = 0
+    addi    $t0, $t0, 1             # i++
+    j       Loop1
 
 Exit:                               # Epílogo do procedimento
     jr      $ra
