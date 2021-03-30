@@ -7,21 +7,20 @@ _size:  .word 5                     # tamanho do arranjo
 .globl  main
 
 main:
-    jal     clear2
-    li      $v0, 10	                # Exit syscall
-    syscall
-
-clear2:
     # inicialização dos parâmetros
     la      $a0, _array
     lw      $a1, _size
-    # Prólogo do laço. Deve conter uma única instrução de inicialização de p.
-    add     $t0, $a0, $zero         # copy p to t0
+    jal     clear2
+    li      $v0, 10	            # Exit syscall
+    syscall
+
+clear2:
+    add     $t0, $a0, $zero         # t0 = a0
+    sll     $t1, $a1, 2             # $t1 = size*4
+    add     $t2, $a0, $t1           # copy p to t0
 
 Loop2:                              # Teste, corpo e iteração do laço.
-    sll     $t2, $a1, 2             # t2 = size * 4
-    add     $t2, $a0, $t2           # t2 += array base
-    slt     $t3, $t0, $t2           # t3 = 1 if p > array[size]
+    slt     $t3, $t0, $t2           # t3 = (p < array[size])
     beq     $t3, $zero, Exit        # if p >= &array[size] goto Exit
     sw      $zero, 0($t0)           # *p = 0
     addi    $t0, $t0, 4             # p = p + 1

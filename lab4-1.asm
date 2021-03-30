@@ -7,14 +7,14 @@ _size:  .word 5                     # tamanho do arranjo
 .globl  main
 
 main:
+    la      $a0, _array
+    lw      $a1, _size
     jal     clear1
     li      $v0, 10                 # Exit syscall
     syscall
 
 clear1:
     # inicialização dos parâmetros
-    la      $a0, _array
-    lw      $a1, _size
     # Prólogo do laço. Deve conter uma única instrução de inicialização do índice.
     add     $t0, $zero, $zero       # i = 0
 
