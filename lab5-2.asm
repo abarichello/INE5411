@@ -37,6 +37,7 @@ lw      $t3, 0($t2)           # t3 = v[j]
 lw      $t4, 4($t2)           # t4 = v[j+1]
 slt     $t0, $t4, $t3         # t0 = v[j+1] < v[j]
 beq     $t0, $zero, exit2     # if (v[j+1] > v[j]) goto exit2
+move    $a1, $s1              # a1 = j
 nop                           # MARCA 2
 jal     swap                  # chamada de swap
 addi    $s1, $s1, -1          # j -= 1

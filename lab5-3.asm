@@ -20,11 +20,12 @@ addi    $sp, $sp, -12         # push 4
 sw      $ra, 8($sp)           # push ra
 sw      $s1, 4($sp)           # push s1
 sw      $s0, 0($sp)           # push s0 (i)
+move    $s3, $a1
 move    $s0, $zero            # MARCA 0 // inicialização da variavel i
 
 for1tst:                      # início do corpo do laço externo
 nop                           # MARCA 1
-slt     $t0, $s0, $a1         # t0 = i < n
+slt     $t0, $s0, $s3         # t0 = i < n
 beq     $t0, $zero, exit1     # if not t0 goto exit1
 addi    $s1, $s0, -1          # s1 = i-1
 
@@ -37,6 +38,7 @@ lw      $t3, 0($t2)           # t3 = v[j]
 lw      $t4, 4($t2)           # t4 = v[j+1]
 slt     $t0, $t4, $t3         # t0 = v[j+1] < v[j]
 beq     $t0, $zero, exit2     # if (v[j+1] > v[j]) goto exit2
+move    $a1, $s1
 nop                           # MARCA 2
 jal     swap                  # chamada de swap
 addi    $s1, $s1, -1          # j -= 1

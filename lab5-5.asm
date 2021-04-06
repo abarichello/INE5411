@@ -11,20 +11,22 @@ lw      $a1, _n
 addi    $s3, $zero, 2019
 jal     sort                  # marca 3
 addi    $t1, $s3, 1           # marca 4
-li      $v0, 10               # Exit syscall
+li      $v0, 10               # marca 5 // Exit syscall
 syscall
 
 # procedure sort
 sort:
-addi    $sp, $sp, -12         # push 4
+addi    $sp, $sp, -16         # push 5
+sw      $s3, 12($sp)          # push s3 (2019)
 sw      $ra, 8($sp)           # push ra
 sw      $s1, 4($sp)           # push s1
 sw      $s0, 0($sp)           # push s0 (i)
+move    $s3, $a1
 move    $s0, $zero            # MARCA 0 // inicialização da variavel i
 
 for1tst:                      # início do corpo do laço externo
 nop                           # MARCA 1
-slt     $t0, $s0, $a1         # t0 = i < n
+slt     $t0, $s0, $s3         # t0 = i < n
 beq     $t0, $zero, exit1     # if not t0 goto exit1
 addi    $s1, $s0, -1          # s1 = i-1
 
@@ -37,6 +39,7 @@ lw      $t3, 0($t2)           # t3 = v[j]
 lw      $t4, 4($t2)           # t4 = v[j+1]
 slt     $t0, $t4, $t3         # t0 = v[j+1] < v[j]
 beq     $t0, $zero, exit2     # if (v[j+1] > v[j]) goto exit2
+move    $a1, $s2
 nop                           # MARCA 2
 jal     swap                  # chamada de swap
 addi    $s1, $s1, -1          # j -= 1
@@ -50,7 +53,8 @@ exit1:                        # fim do corpo do laço externo
 lw      $s0, 0($sp)
 lw      $s1, 4($sp)
 lw      $ra, 8($sp)
-addi    $sp, $sp, 12
+lw      $s3, 12($sp)
+addi    $sp, $sp, 16
 jr      $ra
 
 # codificação da procedure swap
@@ -58,7 +62,7 @@ swap:
 sll     $t1, $a1, 2           # reg $t1=k+4
 add     $t1, $a0, $t1         # reg $t1=v+(k*4)
 lw      $t0, 0($t1)           # reg $t0 (temp)  =v[k]
-lw      $t2, 4($t1)           # reg $t2 = v[k+1]
-sw      $t2, 0($t1)           # v[k] = reg $t2
+lw      $a0, 4($t1)           # reg $a0 = v[k+1]
+sw      $a0, 0($t1)           # v[k] = reg $t2
 sw      $t0, 4($t1)           # v[k+1] = reg $t0 temp
 jr      $ra                   # retorna para a rotina chamadora
