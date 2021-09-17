@@ -1,7 +1,7 @@
 .data
 # Arranjo inicializado com elementos N não nulos. O valor de N é provido no relatório.
-_array: .byte 3:5                   # N palavras com o valor 3
-_size:  .word 5                     # tamanho do arranjo
+_array: .byte 3:4                   # N palavras com o valor 3
+_size:  .word 4                     # tamanho do arranjo
 
 .text
 .globl  main

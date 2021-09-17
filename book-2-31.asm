@@ -1,8 +1,9 @@
 .text			# Define o início do Text Segment
 .globl main		# Define o início do código do usuário
 main:
-addi  $a0, $a0, 0
+addi  $a0, $a0, 3
 jal   fib
+nop
 
 fib:
 bne   $a0, $0, R0

@@ -1,6 +1,6 @@
 .data
-#_save: .word 9999,7,6,1,6,4,5,6,0 # Trocar para Estimulo 2.1
-_save: .word 9999,7,6,6,6,6,6,6,6 # Estimulo 2.2
+#_save: .word 9999,8,6,6,6,6,5,6,3,0 # Trocar para Estimulo 2.1
+_save: .word 9999,8,6,6,6,6,6,6,6,6 # Estimulo 2.2
 _k: .word 6
 _error: .asciiz "Index Out of Bounds Exception"
 .text
